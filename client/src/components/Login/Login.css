@@ -1,0 +1,63 @@
+.login {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    height: 800px;
+}
+
+.form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
+input {
+    height: 32px;
+    width: 400px;
+    border-radius: 20px;
+    text-align: center;
+    padding: 3px;
+}
+
+p {
+    text-align: right;
+    font-size: 15px;
+}
+
+p:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+label {
+    margin: 25px;
+    text-align: left;
+}
+
+.icon {
+    margin-left: 25px;
+}
+
+.icon:hover {
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 1030px) {
+    .form {
+        flex-direction: column;
+    }
+    .icon {
+        margin: 45px 0;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    input {
+        width: 300px;
+    }
+    .login {
+        height: 600px;
+    }
+}

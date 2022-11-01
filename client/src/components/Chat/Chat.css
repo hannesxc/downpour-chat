@@ -1,0 +1,26 @@
+.room {
+    box-shadow: 1px 1px 10px rgba(117, 70, 70, 0.1);
+    border-radius: 5px;
+}
+
+.room .heading {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 2rem;
+}
+
+.messages {
+    background-color: whitesmoke;
+}
+
+.my-message {
+    align-self: flex-end;
+}
+
+.room .messages > div {
+    display: flex;
+    flex-direction: column;
+    width: auto !important;
+    overflow: auto;
+    height: 400px;
+    padding: 1rem;
+}
