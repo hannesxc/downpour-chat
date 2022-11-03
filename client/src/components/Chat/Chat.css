@@ -8,6 +8,16 @@
     font-size: 2rem;
 }
 
+button {
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.6;
+}
+
 .messages {
     background-color: whitesmoke;
 }

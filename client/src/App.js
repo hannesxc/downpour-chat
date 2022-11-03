@@ -10,7 +10,7 @@ import { ToastContainer } from 'react-toastify'
 function App() {
   return (
     <>
-      <ToastContainer />
+      <ToastContainer style={{ width: "380px" }}/>
       <MainProvider>
         <SocketProvider>
             <Router>

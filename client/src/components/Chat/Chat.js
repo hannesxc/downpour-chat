@@ -17,9 +17,12 @@ const Chat = () => {
     const navigate = useNavigate()
 
     window.onpopstate = e => logout()
-    //Checks to see if there's a user present
-    useEffect(() => { if (!name) return navigate('/') }, [navigate, name])
 
+    //Checks to see if there's a user present
+    useEffect(() => {
+        if (!name) 
+            return navigate('/')
+    }, [navigate, name])
 
     useEffect(() => {
         socket.on("message", msg => {
@@ -27,7 +30,7 @@ const Chat = () => {
         })
 
         socket.on("notification", notif => {
-            toast.success(notif?.title, {
+            toast.success(notif?.description, {
                 toastId: "success",
                 position: "top-center",
                 autoClose: 3000,
@@ -61,7 +64,7 @@ const Chat = () => {
                     })}
                 </div>
                 <div>
-                    <div> {room.slice(0, 1).toUpperCase() + room.slice(1)}</div>
+                    <div>{room}</div>
                     <div>{name}</div>
                 </div>
                 <FiLogOut onClick={logout} cursor='pointer'/>
@@ -82,7 +85,7 @@ const Chat = () => {
             </ScrollToBottom>
             <div className='form'>
                 <input type="text" placeholder='Enter Message' value={message} onChange={e => setMessage(e.target.value)} />
-                <RiSendPlaneFill onClick={handleSendMessage} disabled={message === '' ? true : false} />
+                <button onClick={handleSendMessage} disabled={message === '' ? true : false}><RiSendPlaneFill size={'2em'}/></button>
             </div>
         </div>
     )

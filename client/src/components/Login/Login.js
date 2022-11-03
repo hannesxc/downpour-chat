@@ -6,7 +6,9 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'; 
 import './Login.css'
 import { BsFillArrowRightCircleFill } from 'react-icons/bs'
-import { AiFillCopy } from 'react-icons/ai' 
+import { AiFillCopy } from 'react-icons/ai'
+
+var randomize = require('randomatic')
 
 const Login = () => {
     const socket = useContext(SocketContext)
@@ -20,14 +22,24 @@ const Login = () => {
         })
     })
 
-    const handleCopy = () => {
-        navigator.clipboard.writeText("abc")
+    //Random 16 digit alphanumeric code
+    const handleCopyRoom = () => {
+        const rand = randomize('Aa0', 16)
+        setRoom(rand)
+        console.log(rand)
+        navigator.clipboard.writeText(rand)
         toast.success("Copied to clipboard!",{
             toastId: 'success',
             position: 'top-center',
             autoClose: 3000,
             theme: 'dark'
         })
+    }
+
+    //Random username
+    const handleUsername = () => {
+        const rand = 'Anonymous' + randomize('0', 3)
+        setName(rand)
     }
 
     //Emits the login event and if successful redirects to chat and saves user data
@@ -57,12 +69,12 @@ const Login = () => {
                 <label>
                     <h3>Username</h3>
                     <input type="text" placeholder='User Name' value={name} onChange={e => setName(e.target.value)} />
-                    <p onClick={handleCopy}><AiFillCopy />Generate random name</p>
+                    <p onClick={handleUsername}><AiFillCopy />Generate random name</p>
                 </label>
                 <label>
                     <h3>Room Name</h3>
                     <input type="text" placeholder='Room Name' value={room} onChange={e => setRoom(e.target.value)} />
-                    <p onClick={handleCopy}><AiFillCopy />Generate random code</p>
+                    <p onClick={handleCopyRoom}><AiFillCopy />Generate random code</p>
                 </label>
                 <BsFillArrowRightCircleFill className='icon' size={'3.5em'} onClick={handleClick}/>
             </div>
