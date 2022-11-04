@@ -9,6 +9,9 @@ import './Chat.css'
 import { FiLogOut } from 'react-icons/fi'
 import { RiSendPlaneFill } from 'react-icons/ri'
 
+const aes256 = require('aes256');
+const key = process.env.REACT_APP_SECRET_KEY
+
 const Chat = () => {
     const { name, users, room, setName, setRoom } = useContext(MainContext)
     const socket = useContext(SocketContext)
@@ -26,7 +29,9 @@ const Chat = () => {
 
     useEffect(() => {
         socket.on("message", msg => {
-            setMessages(messages => [...messages, msg]);
+            const decryptedMessage = aes256.decrypt(key, msg.text)
+            const actualMessage = {text: decryptedMessage, user: msg.user}
+            setMessages(messages => [...messages, actualMessage])
         })
 
         socket.on("notification", notif => {
@@ -41,7 +46,8 @@ const Chat = () => {
 
 
     const handleSendMessage = () => {
-        socket.emit('sendMessage', message, () => setMessage(''))
+        const encryptedMessage = aes256.encrypt(key, message)
+        socket.emit('sendMessage', encryptedMessage, () => setMessage(''))
         setMessage('')
     }
 
@@ -83,8 +89,12 @@ const Chat = () => {
                     </div>
                 }
             </ScrollToBottom>
-            <div className='form'>
-                <input type="text" placeholder='Enter Message' value={message} onChange={e => setMessage(e.target.value)} />
+            <div className='send'>
+                <input type="text" placeholder='Enter Message' value={message} onChange={e => setMessage(e.target.value)} onKeyDown={(e) => {
+                    if (e.key === 'Enter' && message !== '') {
+                        handleSendMessage()
+                    }
+                }}/>
                 <button onClick={handleSendMessage} disabled={message === '' ? true : false}><RiSendPlaneFill size={'2em'}/></button>
             </div>
         </div>

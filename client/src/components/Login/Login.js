@@ -68,12 +68,18 @@ const Login = () => {
             <div className="form">
                 <label>
                     <h3>Username</h3>
-                    <input type="text" placeholder='User Name' value={name} onChange={e => setName(e.target.value)} />
+                    <input type="text" placeholder='User Name' value={name} onChange={e => setName(e.target.value)} onKeyDown={(e) => {
+                        if (e.key === 'Enter') 
+                            handleClick()
+                    }} />
                     <p onClick={handleUsername}><AiFillCopy />Generate random name</p>
                 </label>
                 <label>
                     <h3>Room Name</h3>
-                    <input type="text" placeholder='Room Name' value={room} onChange={e => setRoom(e.target.value)} />
+                    <input type="text" placeholder='Room Name' value={room} onChange={e => setRoom(e.target.value)} onKeyDown={(e) => {
+                        if (e.key === 'Enter') 
+                            handleClick()
+                    }} />
                     <p onClick={handleCopyRoom}><AiFillCopy />Generate random code</p>
                 </label>
                 <BsFillArrowRightCircleFill className='icon' size={'3.5em'} onClick={handleClick}/>
