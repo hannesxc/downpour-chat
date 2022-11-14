@@ -15,14 +15,14 @@ const Login = () => {
     const { name, setName, room, setRoom, setUsers } = useContext(MainContext)
     const navigate = useNavigate()
 
-    //Checks to see if there's a user already present
+    // Handle new users
     useEffect(() => {
         socket.on("users", users => {
             setUsers(users)
         })
     })
 
-    //Random 16 digit alphanumeric code
+    // Random 16 digit alphanumeric code
     const handleCopyRoom = () => {
         const rand = randomize('Aa0', 16)
         setRoom(rand)
@@ -36,13 +36,13 @@ const Login = () => {
         })
     }
 
-    //Random username
+    // Random username
     const handleUsername = () => {
         const rand = 'Anonymous' + randomize('0', 3)
         setName(rand)
     }
 
-    //Emits the login event and if successful redirects to chat and saves user data
+    // Emits the login event and if successful redirects to chat and saves user data
     const handleClick = () => {
         socket.emit('login', { name, room }, error => {
             if (error) {

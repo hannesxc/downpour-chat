@@ -1,7 +1,7 @@
 # Downpour Chat (WIP)  
 
 ## About  
-NOT COMPLETED YET. End to end encrypted chatting application, privacy-focused. No data ultimately resides on our backend database, temporary data is stored so that users can grab a JSON transcript of their chats at any given time, but all data is flushed/deleted upon session termination. Multiple people can join multiple rooms at any given time. Made with ReactJS, NodeJS, ExpressJS, Socket.IO.  
+NOT COMPLETED YET. End to end encrypted chatting application, privacy-focused. No data ultimately resides on our backend database, temporary data is stored so that users can grab a JSON transcript of their chats at any given time, but all data is flushed/deleted upon session termination. Multiple people can join multiple rooms at any given time. Made with ReactJS, NodeJS, ExpressJS, Socket.IO and MongoDB.  
 
 ## Project  
 This project was bootstrapped with create-react-app, and uses react-router-dom for routing, react-icons for some pretty icons, react-toastify for error/success prompts, react-scroll-to-bottom for the chat's auto scroll to bottom feature, randomatic for random alphanumeric strings, cors (express middleware) and aes256 for symmetric cryptography (for messages).  
