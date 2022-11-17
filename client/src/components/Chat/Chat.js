@@ -50,7 +50,7 @@ const Chat = () => {
     }, [socket])
 
     // Fetch messages from backend /chats/room route
-    axios.get(`http://localhost:5000/chats/${room}`, {crossdomain: true}).then(res => {
+    axios.get(`https://downpourchatserver.onrender.com/chats/${room}`, {crossdomain: true}).then(res => {
         setData(res.data[0])
     }).catch(err => console.log(err)) 
 
