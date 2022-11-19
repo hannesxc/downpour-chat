@@ -7,8 +7,7 @@ import ScrollToBottom from 'react-scroll-to-bottom'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css' 
 import './Chat.css'
-import { FiLogOut } from 'react-icons/fi'
-import { RiSendPlaneFill } from 'react-icons/ri'
+import { BsChatRightTextFill, FiLogOut, FiDownload, RiSendPlaneFill, MdRoomPreferences } from 'react-icons/all'
 
 const aes256 = require('aes256');
 const key = process.env.REACT_APP_SECRET_KEY
@@ -17,6 +16,7 @@ const Chat = () => {
     const { name, users, room, setName, setRoom } = useContext(MainContext)
     const socket = useContext(SocketContext)
     const [ message, setMessage ] = useState('')
+    // eslint-disable-next-line
     const [ messages, setMessages ] = useState([])
     const [ data, setData ] = useState({})
     const navigate = useNavigate()
@@ -36,6 +36,9 @@ const Chat = () => {
             const decryptedMessage = decryptMessages(msg.text)
             const actualMessage = {text: decryptedMessage, user: msg.user}
             setMessages(messages => [...messages, actualMessage])
+            axios.get(`https://downpourchatserver.onrender.com/chats/${room}`, {crossdomain: true}).then(res => {
+                setData(res.data[0])
+            }).catch(err => console.log(err)) 
         })
         
         // Login/Logout notifications
@@ -47,12 +50,16 @@ const Chat = () => {
                 theme: "dark"
             })
         })
+    // eslint-disable-next-line
     }, [socket])
 
     // Fetch messages from backend /chats/room route
-    axios.get(`https://downpourchatserver.onrender.com/chats/${room}`, {crossdomain: true}).then(res => {
-        setData(res.data[0])
-    }).catch(err => console.log(err)) 
+    useEffect(() => {
+        axios.get(`https://downpourchatserver.onrender.com/chats/${room}`, {crossdomain: true}).then(res => {
+            setData(res.data[0])
+        }).catch(err => console.log(err)) 
+    // eslint-disable-next-line
+    }, [])
 
     // Decrypts the given message
     const decryptMessages = (message) => {
@@ -91,48 +98,57 @@ const Chat = () => {
     }
 
     return (
-        <div className='room'>
-            <div className='heading'>
-                <div>
-                    {users && users.map(user => {
+        <div className='mainChat'>
+            <h1 className='big-1 chat'><BsChatRightTextFill />&emsp;Downpour Chat</h1>
+            <div className='room'>
+                <div className='users'>
+                    Users online: { users.length }&emsp; 
+                    ({users && users.map(user => {
                         return (
-                            <div key={user.id}>
-                                <div>{user.name}</div>
-                            </div>
+                            <React.Fragment key={user.id}>
+                                {user.name} ---&ensp;
+                            </React.Fragment>
                         )
-                    })}
+                    })})
                 </div>
-                <div>
-                    <div>{room}</div>
-                    <div>{name}</div>
-                    <button onClick={exportMessages}>Download Transcript</button>
+                <div className='navbar'>
+                    <FiDownload onClick={exportMessages} cursor='pointer' title='Download JSON Transcript'/>
+                    <div className='currUser'>{name}&nbsp;<MdRoomPreferences onClick={() => {
+                        navigator.clipboard.writeText(room)
+                        toast.info('Copied to clipboard!', {
+                            toastId: "info",
+                            position: "top-center",
+                            autoClose: 3000,
+                            theme: "dark"
+                        })
+                    }} cursor='pointer' title='Room'/></div>
+                    <FiLogOut onClick={logout} cursor='pointer' title='Leave Room'/>
                 </div>
-                <FiLogOut onClick={logout} cursor='pointer'/>
-            </div>
 
-            <ScrollToBottom className='messages' debug={false} initialScrollBehavior='smooth'>
-                {'messages' in data && messages.length > 0 ?
-                    data.messages.map((msg, i) =>
-                    (<div key={i} className={`message ${msg.user === name ? "my-message" : ""}`}>
-                        <h4>{msg.user}</h4>
-                        <h3>{decryptMessages(msg.message)}</h3>
-                        <h5>{msg.sent}</h5>
-                    </div>)
-                    )
-                    :
-                    <div>
-                        <h2>No messages</h2>
-                    </div>
-                }
-            </ScrollToBottom>
-            
-            <div className='send'>
-                <input type="text" placeholder='Enter Message' value={message} onChange={e => setMessage(e.target.value)} onKeyDown={(e) => {
-                    if (e.key === 'Enter' && message !== '') {
-                        handleSendMessage()
+                <ScrollToBottom className='messages' debug={false} initialScrollBehavior='smooth'>
+                    {data.messages !== undefined ?
+                        data.messages.map((msg, i) =>
+                        (<div key={i} className={`message ${msg.user === name ? "my-message" : ""}`}>
+                            <h4>{msg.user}</h4>
+                            <h3>{decryptMessages(msg.message)}</h3>
+                            <h5>{msg.sent}</h5>
+                        </div>)
+                        )
+                        :
+                        <div>
+                            <h2 style={{'textAlign': 'center'}}>No messages</h2>
+                        </div>
                     }
-                }}/>
-                <button onClick={handleSendMessage} disabled={message === '' ? true : false}><RiSendPlaneFill size={'2em'}/></button>
+                </ScrollToBottom>
+                
+                <div className='send'>
+                    <input type="text" placeholder='Enter Message' value={message} onChange={e => setMessage(e.target.value)} onKeyDown={(e) => {
+                        if (e.key === 'Enter' && message !== '') {
+                            handleSendMessage()
+                        }
+                    }}/>
+                    <button onClick={handleSendMessage} disabled={message === '' ? true : false} title='Send'><RiSendPlaneFill size={'2em'} color='lightgray'/></button>
+                </div>
             </div>
         </div>
     )

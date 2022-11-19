@@ -5,8 +5,7 @@ import { SocketContext } from '../../contexts/socketContext'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'; 
 import './Login.css'
-import { BsFillArrowRightCircleFill } from 'react-icons/bs'
-import { AiFillCopy } from 'react-icons/ai'
+import { BsFillArrowRightCircleFill, BsChatRightTextFill, AiFillCopy } from 'react-icons/all'
 
 var randomize = require('randomatic')
 
@@ -28,8 +27,8 @@ const Login = () => {
         setRoom(rand)
         console.log(rand)
         navigator.clipboard.writeText(rand)
-        toast.success("Copied to clipboard!",{
-            toastId: 'success',
+        toast.info("Copied to clipboard!",{
+            toastId: 'info',
             position: 'top-center',
             autoClose: 3000,
             theme: 'dark'
@@ -64,8 +63,11 @@ const Login = () => {
 
     return (
         <div className='login'>
-            <h1>Downpour Chat</h1>
-            <div className="form">
+            <div className='big-1'>
+                <h1><BsChatRightTextFill />&emsp;Downpour Chat</h1>
+                <h2>Privacy-centered end to end encrypted chatting web application, made by the community, for the community.</h2>
+            </div>
+            <div className="form big-1">
                 <label>
                     <h3>Username</h3>
                     <input type="text" placeholder='User Name' value={name} onChange={e => setName(e.target.value)} onKeyDown={(e) => {
@@ -82,7 +84,7 @@ const Login = () => {
                     }} />
                     <p onClick={handleCopyRoom}><AiFillCopy />Generate random code</p>
                 </label>
-                <BsFillArrowRightCircleFill className='icon' size={'3.5em'} onClick={handleClick}/>
+                <BsFillArrowRightCircleFill className='icon' size={'3.5em'} onClick={handleClick} title='Enter Room'/>
             </div>
         </div>
     )

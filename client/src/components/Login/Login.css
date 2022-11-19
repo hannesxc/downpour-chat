@@ -1,23 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Work Sans', sans-serif;
+    color: lightgray;    
+}
+
 .login {
+    background: url('../../images/login.webp') no-repeat center fixed;
+    background-size: cover;
     display: flex;
     flex-direction: column;
     text-align: center;
-    height: 800px;
+    height: 100vh;
+    filter: saturate(1.4);
+}
+
+.big-1 {
+    font-family: 'Varela Round', sans-serif;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
 }
 
 .form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     flex-grow: 1;
+    flex-direction: row;
 }
 
 input {
     height: 32px;
     width: 400px;
+    font-size: 14px;
     border-radius: 20px;
     text-align: center;
     padding: 3px;
+    border: none;
 }
 
 p {

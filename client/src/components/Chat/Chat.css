@@ -1,14 +1,63 @@
+* {
+    scrollbar-width: thin;
+    scrollbar-color: inherit #402f6c;
+}
+
+*::-webkit-scrollbar {
+    width: 9px;
+}
+
+*::-webkit-scrollbar-track {
+    background: inherit;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #402f6c;
+    border-radius: 10px;
+}
+
+body {
+    background: url('../../images/chat.webp') no-repeat center fixed;
+    background-size: cover;
+}
+
 .room {
     box-shadow: 1px 1px 10px rgba(117, 70, 70, 0.1);
     border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 40px;
 }
 
-.room .heading {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 2rem;
+.chat {
+    flex-direction: row;
+    margin-top: 50px;
+}
+
+.users {
+    display: flex;
+    font-size: 20px;
+    margin: 20px;
+    width: 990px;
+}
+
+.navbar {
+    font-size: 30px;
+    display: flex;
+    width: 970px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.currUser {
+    display: flex;
+    align-items: center;
 }
 
 button {
+    font-size: 15px;
     border: none;
     background-color: inherit;
     cursor: pointer;
@@ -24,16 +73,33 @@ button:hover {
 }
 
 .send input {
+    background: inherit;
+    color: lightgray;
     border-radius: 3px;
     border: 1px solid grey;
+    width: 945px;
 }
 
 .messages {
-    background-color: whitesmoke;
+    margin: 15px auto;
+    width: 1000px;
+    height: 600px;
+}
+
+.message {
+    border: 1px solid gray;
+    border-radius: 30px;
+    align-self: flex-start;
+    padding: 10px;
+    margin: 5px;
 }
 
 .my-message {
     align-self: flex-end;
+}
+
+.my-message h5 {
+    text-align: end;
 }
 
 .room .messages > div {
@@ -41,6 +107,34 @@ button:hover {
     flex-direction: column;
     width: auto !important;
     overflow: auto;
-    height: 400px;
+    height: 565px;
     padding: 1rem;
+}
+
+@media only screen and (max-width: 1060px) {
+    .messages, .users, .navbar, .send {
+        width: 600px;
+    }
+}
+
+@media only screen and (max-width: 645px) {
+    .messages, .users, .navbar, .send {
+        width: 420px;
+    }
+}
+
+@media only screen and (max-width: 440px) {
+    .messages, .users, .navbar, .send {
+        width: 370px;
+    }
+}
+
+@media only screen and (max-width: 350px) {
+    .messages, .users, .navbar, .send {
+        font-size: 18px;
+        width: 240px;
+    }
+    .big-1 {
+        font-size: 20px;
+    }
 }
