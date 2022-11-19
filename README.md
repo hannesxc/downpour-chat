@@ -1,5 +1,8 @@
 # Downpour Chat (WIP)  
 
+## Note  
+Switch to main-db branch for the finalized version.  
+
 ## About  
 NOT COMPLETED YET. End to end encrypted chatting application, privacy-focused. No data ultimately resides on our backend database, temporary data is stored so that users can grab a JSON transcript of their chats at any given time, but all data is flushed/deleted upon session termination. Multiple people can join multiple rooms at any given time. Made with ReactJS, NodeJS, ExpressJS, Socket.IO.  
 
