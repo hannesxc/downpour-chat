@@ -25,9 +25,10 @@ const Chat = () => {
 
     // Checks to see if there's a user present
     useEffect(() => {
-        if (!name) 
+        if (!name || !room) 
             return navigate('/')
-    }, [navigate, name])
+    // eslint-disable-next-line
+    }, [name, room]) 
 
     // Socket.IO operations
     useEffect(() => {
@@ -63,7 +64,9 @@ const Chat = () => {
 
     // Decrypts the given message
     const decryptMessages = (message) => {
-        return aes256.decrypt(key, message)
+        try {
+            return aes256.decrypt(key, message)
+        } catch(err) {}
     }
 
     // Exports messages in JSON format for downloadable chat transcripts

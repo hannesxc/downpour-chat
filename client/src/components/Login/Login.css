@@ -74,11 +74,11 @@ label {
     }
 }
 
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 500px) {
     input {
         width: 300px;
     }
-    .login {
-        height: 600px;
+    .login, body {
+        background: black;
     }
 }
