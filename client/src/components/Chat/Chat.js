@@ -35,7 +35,7 @@ const Chat = () => {
         // When messages are sent/received
         socket.on("message", msg => {
             const decryptedMessage = decryptMessages(msg.text)
-            const actualMessage = {text: decryptedMessage, user: msg.user}
+            const actualMessage = {text: decryptedMessage, user: msg.user, sent: msg.sent}
             setMessages(messages => [...messages, actualMessage])
             axios.get(`https://downpourchatserver.onrender.com/chats/${room}`, {crossdomain: true}).then(res => {
                 setData(res.data[0])
@@ -88,7 +88,18 @@ const Chat = () => {
     // Send encrypted message to backend/db
     const handleSendMessage = () => {
         const encryptedMessage = aes256.encrypt(key, message)
-        socket.emit('sendMessage', encryptedMessage, () => setMessage(''))
+
+        // Calculate local time when the message is sent
+        const hours = new Date().getHours()
+        var mins = new Date().getMinutes() < 10 ? "0" + new Date().getMinutes() : new Date().getMinutes()
+        hours >= 12 ? mins = mins + " PM" : mins = mins + " AM"
+
+        const specMessage = {
+            message: encryptedMessage,
+            sent: hours > 12 ? (hours - 12) + ":" + mins : hours + ":" + mins
+        }
+        
+        socket.emit('sendMessage', specMessage, () => setMessage(''))
         setMessage('')
     }
 

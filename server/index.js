@@ -44,14 +44,9 @@ io.on('connection', (socket) => {
     })
 
     // Handle any messages sent
-    socket.on('sendMessage', message => {
+    socket.on('sendMessage', specMessage => {
         const user = getUser(socket.id)
-        io.in(user.room).emit('message', { user: user.name, text: message })
-
-        // Calculate local time when the message is sent
-        const hours = new Date().getHours()
-        var mins = new Date().getMinutes() < 10 ? "0" + new Date().getMinutes() : new Date().getMinutes()
-        hours >= 12 ? mins = mins + " PM" : mins = mins + " AM"
+        io.in(user.room).emit('message', { user: user.name, text: specMessage.message, sent: specMessage.sent })
 
         // Update document to include new messages
         const updateDoc = async () => {
@@ -60,8 +55,8 @@ io.on('connection', (socket) => {
                 { $push: { messages: 
                     {
                         user: user.name,
-                        message: message,
-                        sent: hours > 12 ? (hours - 12) + ":" + mins : hours + ":" + mins
+                        message: specMessage.message,
+                        sent: specMessage.sent
                     }
                 }}
             )
