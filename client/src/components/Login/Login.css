@@ -7,6 +7,15 @@ body {
     color: lightgray;    
 }
 
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
 .login {
     background: url('../../images/login.webp') no-repeat center fixed;
     background-size: cover;
@@ -77,8 +86,5 @@ label {
 @media only screen and (max-width: 500px) {
     input {
         width: 300px;
-    }
-    .login, body {
-        background: black;
     }
 }

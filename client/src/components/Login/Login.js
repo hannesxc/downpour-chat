@@ -86,6 +86,7 @@ const Login = () => {
                 </label>
                 <BsFillArrowRightCircleFill className='icon' size={'3.5em'} onClick={handleClick} title='Enter Room'/>
             </div>
+            <h4>Copyright &copy; <a href='https://github.com/hannesxc' target='_blank' rel='noreferrer'>Aditya Chakravorty</a>, 2023</h4>
         </div>
     )
 }

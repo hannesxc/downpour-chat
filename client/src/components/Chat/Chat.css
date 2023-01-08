@@ -21,32 +21,42 @@ body {
     background-size: cover;
 }
 
+.mainChat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+}
+
 .room {
-    box-shadow: 1px 1px 10px rgba(117, 70, 70, 0.1);
-    border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding: 40px;
+    padding: 15px;
+    width: 90%;
+    max-width: 1920px;
+    gap: 20px;
+    flex-grow: 1;
 }
 
 .chat {
     flex-direction: row;
-    margin-top: 50px;
+    margin: 50px 0 20px;
+    flex-grow: 0;
 }
 
 .users {
     display: flex;
     font-size: 20px;
-    margin: 20px;
-    width: 990px;
+    margin: 20px 20px 0;
+    width: 90%;
 }
 
 .navbar {
     font-size: 30px;
     display: flex;
-    width: 970px;
+    width: 90%;
     align-items: center;
     justify-content: space-between;
 }
@@ -69,7 +79,8 @@ button:hover {
 
 .send {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    width: 90%;
 }
 
 .send input {
@@ -77,13 +88,13 @@ button:hover {
     color: lightgray;
     border-radius: 3px;
     border: 1px solid grey;
-    width: 945px;
+    width: 95%;
 }
 
 .messages {
-    margin: 15px auto;
-    width: 1000px;
-    height: 600px;
+    margin: 15px 0;
+    width: 90%;
+    height: 60vh;
 }
 
 .message {
@@ -102,6 +113,13 @@ button:hover {
     background: gray;
 }
 
+.empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: inherit;
+}
+
 .my-message {
     align-self: flex-end;
 }
@@ -115,37 +133,21 @@ button:hover {
     flex-direction: column;
     width: auto !important;
     overflow: auto;
-    height: 565px;
+    height: inherit;
     padding: 1rem;
 }
 
-@media only screen and (max-width: 1060px) {
-    .messages, .users, .navbar, .send {
-        width: 600px;
+@media only screen and (max-width: 450px) {
+    .login, body {
+        background: #312f2f;
     }
-}
-
-@media only screen and (max-width: 645px) {
-    .messages, .users, .navbar, .send {
-        width: 420px;
-    }
-    body {
-        background: black;
-    }
-}
-
-@media only screen and (max-width: 440px) {
-    .messages, .users, .navbar, .send {
-        width: 370px;
-    }
-}
-
-@media only screen and (max-width: 350px) {
-    .messages, .users, .navbar, .send {
-        font-size: 18px;
-        width: 240px;
-    }
-    .big-1 {
+    .navbar {
         font-size: 20px;
+    }
+    .users, .message h3 {
+        font-size: 17px;
+    }
+    .chat {
+        font-size: 30px;
     }
 }

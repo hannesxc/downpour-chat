@@ -149,8 +149,8 @@ const Chat = () => {
                         </div>)
                         )
                         :
-                        <div>
-                            <h2 style={{'textAlign': 'center'}}>No messages</h2>
+                        <div className='empty'>
+                            <h2>No messages</h2>
                         </div>
                     }
                 </ScrollToBottom>
@@ -164,6 +164,7 @@ const Chat = () => {
                     <button onClick={handleSendMessage} disabled={message === '' ? true : false} title='Send'><RiSendPlaneFill size={'2em'} color='lightgray'/></button>
                 </div>
             </div>
+            <h4>Copyright &copy; <a href='https://github.com/hannesxc' target='_blank' rel='noreferrer'>Aditya Chakravorty</a>, 2023</h4>
         </div>
     )
 }

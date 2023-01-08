@@ -80,11 +80,6 @@ io.on('connection', (socket) => {
         }
         const remDoc = async () => {
             try {
-                /*await collection.updateOne({ room: user.room }, {
-                    $set: { users: getUsers(user.room).map(user => {
-                        return user.name
-                    }) }
-                })*/
                 // Delete the document if session gets terminated.
                 if (getUsers(user.room).length === 0) {
                     await collection.deleteOne({ room: user.room })
