@@ -14,12 +14,13 @@ app.use(cors())
 const uri = process.env.NODE_APP_MONGODB_URI
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 })
 const collection = client.db("chat-app").collection("chats")
+const pingInterval = 30 * 1000
 
 // Listen for Socket.IO events
-io.on('connection', (socket) => {
+io.on("connection", (socket) => {
 
     // Handle user login
-    socket.on('login', ({ name, room }, callback) => {
+    socket.on("login", ({ name, room }, callback) => {
         const { user, error } = addUser(socket.id, name, room)
         if (error) return callback(error)
         socket.join(user.room)
@@ -43,8 +44,19 @@ io.on('connection', (socket) => {
         callback()
     })
 
+    // Start the keep-alive timer when client connects.
+    let pingTimer = setInterval(() => {
+        socket.emit("ping")
+    }, pingInterval)
+
+    socket.on("ping", () => {
+        // Respond to keep-alive message by sending "pong" message back to client.
+        socket.emit("pong")
+        // console.log("Pong!")
+    })
+
     // Handle any messages sent
-    socket.on('sendMessage', specMessage => {
+    socket.on("sendMessage", specMessage => {
         const user = getUser(socket.id)
         io.in(user.room).emit('message', { user: user.name, text: specMessage.message, sent: specMessage.sent })
 
@@ -72,7 +84,9 @@ io.on('connection', (socket) => {
 
     // Disconnect a user on logout
     socket.on("disconnect", () => {
-        console.log("User disconnected");
+        console.log("User disconnected")
+        // clear the keep-alive timer when the client disconnects
+        clearInterval(pingTimer)
         const user = deleteUser(socket.id)
         if (user) {
             io.in(user.room).emit('notification', { description: `${user.name} just left the room.` })

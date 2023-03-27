@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { MainContext } from '../../contexts/mainContext'
@@ -11,6 +11,7 @@ import { BsChatRightTextFill, FiLogOut, FiDownload, RiSendPlaneFill, MdRoomPrefe
 
 const aes256 = require('aes256');
 const key = process.env.REACT_APP_SECRET_KEY
+const endpoint = process.env.REACT_APP_ENDPOINT
 
 const Chat = () => {
     const { name, users, room, setName, setRoom } = useContext(MainContext)
@@ -19,7 +20,9 @@ const Chat = () => {
     // eslint-disable-next-line
     const [ messages, setMessages ] = useState([])
     const [ data, setData ] = useState({})
+    const pingInterval = 30 * 1000
     const navigate = useNavigate()
+    const pingTimer = useRef(null)
 
     window.onpopstate = e => logout()
 
@@ -32,12 +35,24 @@ const Chat = () => {
 
     // Socket.IO operations
     useEffect(() => {
+
+        // Start the keep-alive timer
+        pingTimer.current = setInterval(() => {
+            socket.emit("ping")
+            // console.log("Ping!")
+        }, pingInterval)
+        
+        socket.on("pong", () => {
+            // console.log("Server alive!")
+            // Server has responded to our ping, connection is still alive!
+        })
+        
         // When messages are sent/received
         socket.on("message", msg => {
             const decryptedMessage = decryptMessages(msg.text)
             const actualMessage = {text: decryptedMessage, user: msg.user, sent: msg.sent}
             setMessages(messages => [...messages, actualMessage])
-            axios.get(`https://downpourchatserver.onrender.com/chats/${room}`, {crossdomain: true}).then(res => {
+            axios.get(`${endpoint}/chats/${room}`, {crossdomain: true}).then(res => {
                 setData(res.data[0])
             }).catch(err => console.log(err)) 
         })
@@ -51,12 +66,18 @@ const Chat = () => {
                 theme: "dark"
             })
         })
+
+        return () => {
+            // Stop the keep-alive timer if the connection is closed.
+            clearInterval(pingTimer.current)
+            socket.disconnect()
+        }
     // eslint-disable-next-line
     }, [socket])
 
     // Fetch messages from backend /chats/room route
     useEffect(() => {
-        axios.get(`https://downpourchatserver.onrender.com/chats/${room}`, {crossdomain: true}).then(res => {
+        axios.get(`${endpoint}/chats/${room}`, {crossdomain: true}).then(res => {
             setData(res.data[0])
         }).catch(err => console.log(err)) 
     // eslint-disable-next-line
