@@ -5,8 +5,7 @@ import { SocketContext } from '../../contexts/socketContext'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'; 
 import './Login.css'
-import { BsFillArrowRightCircleFill } from 'react-icons/bs'
-import { AiFillCopy } from 'react-icons/ai'
+import { BsFillArrowRightCircleFill, BsChatRightTextFill, AiFillCopy } from 'react-icons/all'
 
 var randomize = require('randomatic')
 
@@ -15,34 +14,34 @@ const Login = () => {
     const { name, setName, room, setRoom, setUsers } = useContext(MainContext)
     const navigate = useNavigate()
 
-    //Checks to see if there's a user already present
+    // Handle new users
     useEffect(() => {
         socket.on("users", users => {
             setUsers(users)
         })
     })
 
-    //Random 16 digit alphanumeric code
+    // Random 16 digit alphanumeric code
     const handleCopyRoom = () => {
         const rand = randomize('Aa0', 16)
         setRoom(rand)
         console.log(rand)
         navigator.clipboard.writeText(rand)
-        toast.success("Copied to clipboard!",{
-            toastId: 'success',
+        toast.info("Copied to clipboard!",{
+            toastId: 'info',
             position: 'top-center',
             autoClose: 3000,
             theme: 'dark'
         })
     }
 
-    //Random username
+    // Random username
     const handleUsername = () => {
         const rand = 'Anonymous' + randomize('0', 3)
         setName(rand)
     }
 
-    //Emits the login event and if successful redirects to chat and saves user data
+    // Emits the login event and if successful redirects to chat and saves user data
     const handleClick = () => {
         socket.emit('login', { name, room }, error => {
             if (error) {
@@ -64,8 +63,11 @@ const Login = () => {
 
     return (
         <div className='login'>
-            <h1>Downpour Chat</h1>
-            <div className="form">
+            <div className='big-1'>
+                <h1><BsChatRightTextFill />&emsp;Downpour Chat</h1>
+                <h2>Privacy-centered end to end encrypted chatting web application, made by the community, for the community.</h2>
+            </div>
+            <div className="form big-1">
                 <label>
                     <h3>Username</h3>
                     <input type="text" placeholder='User Name' value={name} onChange={e => setName(e.target.value)} onKeyDown={(e) => {
@@ -82,8 +84,9 @@ const Login = () => {
                     }} />
                     <p onClick={handleCopyRoom}><AiFillCopy />Generate random code</p>
                 </label>
-                <BsFillArrowRightCircleFill className='icon' size={'3.5em'} onClick={handleClick}/>
+                <BsFillArrowRightCircleFill className='icon' size={'3.5em'} onClick={handleClick} title='Enter Room'/>
             </div>
+            <h4>Copyright &copy; <a href='https://github.com/hannesxc' target='_blank' rel='noreferrer'>Aditya Chakravorty</a>, 2023</h4>
         </div>
     )
 }

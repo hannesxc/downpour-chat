@@ -1,14 +1,78 @@
-.room {
-    box-shadow: 1px 1px 10px rgba(117, 70, 70, 0.1);
-    border-radius: 5px;
+* {
+    scrollbar-width: thin;
+    scrollbar-color: inherit #402f6c;
 }
 
-.room .heading {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 2rem;
+*::-webkit-scrollbar {
+    width: 9px;
+}
+
+*::-webkit-scrollbar-track {
+    background: inherit;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #402f6c;
+    border-radius: 10px;
+}
+
+body {
+    background: url('../../images/chat.webp') no-repeat center fixed;
+    background-size: cover;
+}
+
+.mainChat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+}
+
+.room {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 15px;
+    width: 90%;
+    max-width: 1920px;
+    gap: 20px;
+    flex-grow: 1;
+}
+
+.chat {
+    flex-direction: row;
+    margin: 50px 0 20px;
+    flex-grow: 0;
+}
+
+.users {
+    display: flex;
+    font-size: 20px;
+    margin: 20px 20px 0;
+    width: 90%;
+}
+
+.typing {
+    display: flex;
+    width: 90%;
+}
+
+.navbar {
+    font-size: 30px;
+    display: flex;
+    width: 90%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.currUser {
+    display: flex;
+    align-items: center;
 }
 
 button {
+    font-size: 15px;
     border: none;
     background-color: inherit;
     cursor: pointer;
@@ -20,20 +84,53 @@ button:hover {
 
 .send {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    width: 90%;
 }
 
 .send input {
+    background: inherit;
+    color: lightgray;
     border-radius: 3px;
     border: 1px solid grey;
+    width: 95%;
 }
 
 .messages {
-    background-color: whitesmoke;
+    margin: 15px 0;
+    width: 90%;
+    height: 60vh;
+}
+
+.message {
+    border: 1px solid gray;
+    border-radius: 30px;
+    align-self: flex-start;
+    padding: 10px;
+    margin: 5px;
+}
+
+.messages button {
+    background: lightslategray;
+}
+
+.messages button:hover {
+    background: gray;
+}
+
+.empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: inherit;
 }
 
 .my-message {
     align-self: flex-end;
+}
+
+.my-message h5 {
+    text-align: end;
 }
 
 .room .messages > div {
@@ -41,6 +138,21 @@ button:hover {
     flex-direction: column;
     width: auto !important;
     overflow: auto;
-    height: 400px;
+    height: inherit;
     padding: 1rem;
+}
+
+@media only screen and (max-width: 450px) {
+    .login, body {
+        background: #312f2f;
+    }
+    .navbar {
+        font-size: 20px;
+    }
+    .users, .message h3 {
+        font-size: 17px;
+    }
+    .chat {
+        font-size: 30px;
+    }
 }
