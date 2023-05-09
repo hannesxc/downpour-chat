@@ -17,8 +17,8 @@ const Chat = () => {
     const { name, users, room, setName, setRoom } = useContext(MainContext)
     const socket = useContext(SocketContext)
     const [ message, setMessage ] = useState('')
-    // eslint-disable-next-line
-    const [ messages, setMessages ] = useState([])
+    const [ typingUsers, setTypingUsers ] = useState([])
+    const [ messages, setMessages ] = useState({ room: room, messages: [] })
     const [ data, setData ] = useState({})
     const pingInterval = 30 * 1000
     const navigate = useNavigate()
@@ -50,14 +50,31 @@ const Chat = () => {
         // When messages are sent/received
         socket.on("message", msg => {
             const decryptedMessage = decryptMessages(msg.text)
-            const actualMessage = {text: decryptedMessage, user: msg.user, sent: msg.sent}
-            setMessages(messages => [...messages, actualMessage])
+            const actualMessage = { message: decryptedMessage, user: msg.user, sent: msg.sent }
+            
+            setMessages(msgs => ({ ...msgs, messages: [...msgs.messages, actualMessage] }))
+
             axios.get(`${endpoint}/chats/${room}`, {crossdomain: true}).then(res => {
                 setData(res.data[0])
             }).catch(err => console.log(err)) 
         })
+
+        // Append new user to typing array unless they're already present
+        socket.on("typing", user => {
+            setTypingUsers(prevUsers => {
+                if (!prevUsers.includes(user))
+                    return [...prevUsers, user]
+                else
+                    return prevUsers
+            })
+        })
+
+        // Remove user from typing array when they've stopped
+        socket.on("stopTyping", user => {
+            setTypingUsers(users => users.filter(u => u !== user))
+        })
         
-        // Login/Logout notifications
+        // Login/Logout/Download notifications
         socket.on("notification", notif => {
             toast.success(notif?.description, {
                 toastId: "success",
@@ -83,27 +100,35 @@ const Chat = () => {
     // eslint-disable-next-line
     }, [])
 
+    // Emit event if typing, Stop emitting typing events after 2 secs unless still typing
+    useEffect(() => {
+        if (message)
+            socket.emit("typing", { name, room })
+
+        const typingTimeout = setTimeout(() => {
+            socket.emit("stopTyping", { name, room })
+          }, 2000)
+        
+        // Clear the timeout if the user starts typing again
+        return () => clearTimeout(typingTimeout);
+    }, [message, name, room, socket])
+
     // Decrypts the given message
     const decryptMessages = (message) => {
-        try {
-            return aes256.decrypt(key, message)
-        } catch(err) {}
+        return aes256.decrypt(key, message)
     }
 
     // Exports messages in JSON format for downloadable chat transcripts
     const exportMessages = () => {
-        console.log(data)
-        try {
-            data.messages.forEach(msg => {
-                const decryptedMsg = decryptMessages(msg.message)
-                msg.message = decryptedMsg
-            })
-            const jsonData = `data:text/json;chatset=utf-8,${encodeURIComponent(JSON.stringify(data, undefined, 4))}`
-            const link = document.createElement("a")
-            link.href = jsonData
-            link.download = "chats.json"
-            link.click()
-        } catch(err) { console.log(err) }
+        console.log(messages)
+        const jsonData = `data:text/json;chatset=utf-8,${encodeURIComponent(JSON.stringify(messages, undefined, 4))}`
+        const link = document.createElement("a")
+        link.href = jsonData
+        link.download = "chats.json"
+        link.click()
+
+        // Emit this in the event someone downloads a chat transcript
+        socket.emit("downloadChats", { name, room })
     }
 
     // Send encrypted message to backend/db
@@ -120,7 +145,7 @@ const Chat = () => {
             sent: hours > 12 ? (hours - 12) + ":" + mins : hours + ":" + mins
         }
         
-        socket.emit('sendMessage', specMessage, () => setMessage(''))
+        socket.emit('sendMessage', specMessage)
         setMessage('')
     }
 
@@ -161,7 +186,7 @@ const Chat = () => {
                 </div>
 
                 <ScrollToBottom className='messages' debug={false} initialScrollBehavior='smooth'>
-                    {data.messages !== undefined ?
+                    {data?.messages !== undefined ?
                         data.messages.map((msg, i) =>
                         (<div key={i} className={`message ${msg.user === name ? "my-message" : ""}`}>
                             <h4>{msg.user}</h4>
@@ -176,6 +201,14 @@ const Chat = () => {
                     }
                 </ScrollToBottom>
                 
+                <div className='typing'>
+                    {typingUsers.length > 0 ? (
+                        <span>
+                            {typingUsers.join(", ")} {typingUsers.length === 1 ? "is" : "are"} typing...
+                        </span>
+                    ) : null}
+                </div>
+
                 <div className='send'>
                     <input type="text" placeholder='Enter Message' value={message} onChange={e => setMessage(e.target.value)} onKeyDown={(e) => {
                         if (e.key === 'Enter' && message !== '') {

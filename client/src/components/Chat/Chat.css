@@ -53,6 +53,11 @@ body {
     width: 90%;
 }
 
+.typing {
+    display: flex;
+    width: 90%;
+}
+
 .navbar {
     font-size: 30px;
     display: flex;
