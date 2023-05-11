@@ -16,9 +16,14 @@
     border-radius: 10px;
 }
 
-body {
-    background: url('../../images/chat.webp') no-repeat center fixed;
+.image2 {
+    background: url('../../images/valentin-muller-bWtd1ZyEy6w-unsplash.jpg') no-repeat center;
+    position: fixed;
+    filter: blur(1px);
     background-size: cover;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
 }
 
 .mainChat {
@@ -90,9 +95,9 @@ button:hover {
 
 .send input {
     background: inherit;
-    color: lightgray;
+    color: var(--primary);
     border-radius: 3px;
-    border: 1px solid grey;
+    border: 1px solid var(--primary);
     width: 95%;
 }
 
@@ -103,7 +108,7 @@ button:hover {
 }
 
 .message {
-    border: 1px solid gray;
+    border: 1px solid var(--primary);
     border-radius: 30px;
     align-self: flex-start;
     padding: 10px;
@@ -111,11 +116,11 @@ button:hover {
 }
 
 .messages button {
-    background: lightslategray;
+    background: var(--primbuttn);
 }
 
 .messages button:hover {
-    background: gray;
+    background: var(--secbuttn);
 }
 
 .empty {
@@ -143,9 +148,6 @@ button:hover {
 }
 
 @media only screen and (max-width: 450px) {
-    .login, body {
-        background: #312f2f;
-    }
     .navbar {
         font-size: 20px;
     }

@@ -1,10 +1,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap');
 
+:root {
+    --primary: #d6daf5;
+    --secondary: #323232;
+    --primbuttn: #505baf;
+    --secbuttn: #38473c;
+}
+
 body {
+    background: black;
     margin: 0;
     font-family: 'Work Sans', sans-serif;
-    color: lightgray;    
+    color: var(--primary);
+}
+
+.image1 {
+    background: url('../../images/sasha-kaunas-taoW2BRnONc-unsplash.jpg') no-repeat center;
+    position: fixed;
+    background-size: cover;
+    width: 100%;
+    height: 100vh;
+    z-index: -2;
 }
 
 a {
@@ -17,13 +34,11 @@ a:hover {
 }
 
 .login {
-    background: url('../../images/login.webp') no-repeat center fixed;
-    background-size: cover;
     display: flex;
     flex-direction: column;
     text-align: center;
+    min-height: 800px;
     height: 100vh;
-    filter: saturate(1.4);
 }
 
 .big-1 {
@@ -35,9 +50,21 @@ a:hover {
     align-items: center;
 }
 
+h1 {
+    background: linear-gradient(190deg, var(--primary), #714b6f);
+    background-clip: text;
+    display: flex;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;    
+}
+
 .form {
     flex-grow: 1;
     flex-direction: row;
+}
+
+button, button svg {
+    color: var(--primary);
 }
 
 input {

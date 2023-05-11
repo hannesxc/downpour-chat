@@ -1,8 +1,5 @@
 # Downpour Chat  
 
-## Note  
-Switch to main-db branch for the finalized version.  
-
 ## About  
 End to end encrypted chatting application, privacy-focused. No data ultimately resides on our backend database, temporary data is stored so that users can grab a JSON transcript of their chats at any given time, but all data is flushed/deleted upon session termination. Multiple people can join multiple rooms at any given time and see past messages sent in that room. Made with ReactJS, NodeJS, ExpressJS, Socket.IO and MongoDB.  
 

@@ -158,68 +158,64 @@ const Chat = () => {
     }
 
     return (
-        <div className='mainChat'>
-            <h1 className='big-1 chat'><BsChatRightTextFill />&emsp;Downpour Chat</h1>
-            <div className='room'>
-                <div className='users'>
-                    Users online: { users.length }&emsp; 
-                    ({users && users.map(user => {
-                        return (
-                            <React.Fragment key={user.id}>
-                                {user.name} ---&ensp;
-                            </React.Fragment>
-                        )
-                    })})
-                </div>
-                <div className='navbar'>
-                    <FiDownload onClick={exportMessages} cursor='pointer' title='Download JSON Transcript'/>
-                    <div className='currUser'>{name}&nbsp;<MdRoomPreferences onClick={() => {
-                        navigator.clipboard.writeText(room)
-                        toast.info('Copied to clipboard!', {
-                            toastId: "info",
-                            position: "top-center",
-                            autoClose: 3000,
-                            theme: "dark"
-                        })
-                    }} cursor='pointer' title='Room'/></div>
-                    <FiLogOut onClick={logout} cursor='pointer' title='Leave Room'/>
-                </div>
+        <>
+            <img className='image2' alt="" />
+            <div className='mainChat'>
+                <h1 className='big-1 chat'><BsChatRightTextFill />&emsp;Downpour Chat</h1>
+                <div className='room'>
+                    <div className='users'>
+                        Users online: {users.length}&emsp;({users.map(user => user.name).join(", ")})
+                    </div>
+                    <div className='navbar'>
+                        <FiDownload onClick={exportMessages} cursor='pointer' title='Download JSON Transcript'/>
+                        <div className='currUser'>{name}&nbsp;<MdRoomPreferences onClick={() => {
+                            navigator.clipboard.writeText(room)
+                            toast.info('Copied to clipboard!', {
+                                toastId: "info",
+                                position: "top-center",
+                                autoClose: 3000,
+                                theme: "dark"
+                            })
+                        }} cursor='pointer' title='Room'/></div>
+                        <FiLogOut onClick={logout} cursor='pointer' title='Leave Room'/>
+                    </div>
 
-                <ScrollToBottom className='messages' debug={false} initialScrollBehavior='smooth'>
-                    {data?.messages !== undefined ?
-                        data.messages.map((msg, i) =>
-                        (<div key={i} className={`message ${msg.user === name ? "my-message" : ""}`}>
-                            <h4>{msg.user}</h4>
-                            <h3>{decryptMessages(msg.message)}</h3>
-                            <h5>{msg.sent}</h5>
-                        </div>)
-                        )
-                        :
-                        <div className='empty'>
-                            <h2>No messages</h2>
-                        </div>
-                    }
-                </ScrollToBottom>
-                
-                <div className='typing'>
-                    {typingUsers.length > 0 ? (
-                        <span>
-                            {typingUsers.join(", ")} {typingUsers.length === 1 ? "is" : "are"} typing...
-                        </span>
-                    ) : null}
-                </div>
-
-                <div className='send'>
-                    <input type="text" placeholder='Enter Message' value={message} onChange={e => setMessage(e.target.value)} onKeyDown={(e) => {
-                        if (e.key === 'Enter' && message !== '') {
-                            handleSendMessage()
+                    <ScrollToBottom className='messages' debug={false} initialScrollBehavior='smooth'>
+                        {data?.messages !== undefined ?
+                            data.messages.map((msg, i) =>
+                            (<div key={i} className={`message ${msg.user === name ? "my-message" : ""}`}>
+                                <h4>{msg.user}</h4>
+                                <h3>{decryptMessages(msg.message)}</h3>
+                                <h5>{msg.sent}</h5>
+                            </div>)
+                            )
+                            :
+                            <div className='empty'>
+                                <h2>No messages</h2>
+                            </div>
                         }
-                    }}/>
-                    <button onClick={handleSendMessage} disabled={message === '' ? true : false} title='Send'><RiSendPlaneFill size={'2em'} color='lightgray'/></button>
+                    </ScrollToBottom>
+                    
+                    <div className='typing'>
+                        {typingUsers.length > 0 ? (
+                            <span>
+                                {typingUsers.join(", ")} {typingUsers.length === 1 ? "is" : "are"} typing...
+                            </span>
+                        ) : null}
+                    </div>
+
+                    <div className='send'>
+                        <input type="text" placeholder='Enter Message' value={message} onChange={e => setMessage(e.target.value)} onKeyDown={(e) => {
+                            if (e.key === 'Enter' && message !== '') {
+                                handleSendMessage()
+                            }
+                        }}/>
+                        <button onClick={handleSendMessage} disabled={message === '' ? true : false} title='Send'><RiSendPlaneFill size={'2em'} /></button>
+                    </div>
                 </div>
+                <h4>Copyright &copy; <a href='https://github.com/hannesxc' target='_blank' rel='noreferrer'>Aditya Chakravorty</a>, 2023</h4>
             </div>
-            <h4>Copyright &copy; <a href='https://github.com/hannesxc' target='_blank' rel='noreferrer'>Aditya Chakravorty</a>, 2023</h4>
-        </div>
+        </>
     )
 }
 
