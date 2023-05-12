@@ -6,6 +6,7 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'; 
 import './Login.css'
 import { BsFillArrowRightCircleFill, BsChatRightTextFill, AiFillCopy } from 'react-icons/all'
+import login from '../../images/login.jpg'
 
 var randomize = require('randomatic')
 
@@ -63,7 +64,7 @@ const Login = () => {
 
     return (
         <>
-            <img className='image1' alt="" />
+            <img className='image1' src={login} alt="" />
             <div className='login'>
                 <div className='big-1'>
                     <h1><BsChatRightTextFill />&ensp;Downpour Chat</h1>

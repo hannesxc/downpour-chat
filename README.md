@@ -7,8 +7,8 @@ End to end encrypted chatting application, privacy-focused. No data ultimately r
 This project was bootstrapped with create-react-app, and uses react-router-dom for routing, react-icons for some pretty icons, react-toastify for error/success prompts, react-scroll-to-bottom for the chat's auto scroll to bottom feature, randomatic for random alphanumeric strings, cors (express middleware) and aes256 for symmetric cryptography (for messages).  
 
 ## Deployment  
-Create .env files in base directories of server/ and client/ and punch your own keys inside (cipher, mongodb URI, endpoint). Change the axios request in client/src/components/Chat/Chat.js to reflect your cloud backend server (or localhost:port) and change the proxy in package.json file. I've hosted this project on Render (https://render.com) with their generous free tier package,  check them out!  
-> Server resides on `https://downpourchatserver.onrender.com/`  
+Create .env files in base directories of server/ and client/ and punch your own keys inside (cipher, mongodb URI, endpoint). Change the axios request in client/src/components/Chat/Chat.js to reflect your cloud backend server (or localhost:port) and change the proxy in package.json file. I've hosted the frontend on Render (https://render.com), and the backend on Glitch (https://glitch.com) with their generous free tier packages, check them out!  
+> Server resides on `https://puzzling-diamond-barber.glitch.me/`  
 > Client resides on `https://downpour-chat.onrender.com/`  
 
 ## Run this app  

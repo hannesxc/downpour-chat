@@ -16,9 +16,8 @@ body {
 }
 
 .image1 {
-    background: url('../../images/sasha-kaunas-taoW2BRnONc-unsplash.jpg') no-repeat center;
     position: fixed;
-    background-size: cover;
+    object-fit: cover;
     width: 100%;
     height: 100vh;
     z-index: -2;

@@ -17,10 +17,9 @@
 }
 
 .image2 {
-    background: url('../../images/valentin-muller-bWtd1ZyEy6w-unsplash.jpg') no-repeat center;
     position: fixed;
-    filter: blur(1px);
-    background-size: cover;
+    filter: blur(0.5px);
+    object-fit: cover;
     width: 100%;
     height: 100vh;
     z-index: -1;
@@ -43,6 +42,10 @@
     max-width: 1920px;
     gap: 20px;
     flex-grow: 1;
+}
+
+.send ::placeholder {
+    color: var(--primary);
 }
 
 .chat {

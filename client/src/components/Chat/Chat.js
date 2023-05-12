@@ -7,6 +7,7 @@ import ScrollToBottom from 'react-scroll-to-bottom'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css' 
 import './Chat.css'
+import chat from '../../images/chat.webp'
 import { BsChatRightTextFill, FiLogOut, FiDownload, RiSendPlaneFill, MdRoomPreferences } from 'react-icons/all'
 
 const aes256 = require('aes256');
@@ -159,9 +160,9 @@ const Chat = () => {
 
     return (
         <>
-            <img className='image2' alt="" />
+            <img className='image2' src={chat} alt="" />
             <div className='mainChat'>
-                <h1 className='big-1 chat'><BsChatRightTextFill />&emsp;Downpour Chat</h1>
+                <h1 className='big-1 chat'><BsChatRightTextFill />&ensp;Downpour Chat</h1>
                 <div className='room'>
                     <div className='users'>
                         Users online: {users.length}&emsp;({users.map(user => user.name).join(", ")})
